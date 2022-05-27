@@ -1,31 +1,18 @@
-import React,{useState,useEffect} from 'react'
+import Servers from './Servers/Servers'
+import Navbar from './Navbar/Navbar'
 
 function App(){
 
-  const [data,setData]=useState({})
+  const title = "GameSnoop"
 
-  useEffect(()=>{
-    fetch("/servers").then(
-      res => res.json()
-    ).then(
-      data => {
-        setData(data)
-        console.log(data)
-      }
-    )
-
-  },[])
 
   return(
-    <div>
-      {(typeof data.servers === 'undefined') ? (
-        <p>Loading...</p>
-      ):(
-        data.servers.map((server,i)=>(
-          <p key={i}>{server['name']} - players : {server['players']} / {server['max_players']}</p>
-        ))
-      )}
-      <div><a></a></div>
+    <div className="App">
+      <Navbar />
+      <div className="content">
+        {/* Add a filter component here */}
+        <Servers/>
+      </div>
     </div>
   )
 }
