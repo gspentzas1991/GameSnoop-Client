@@ -6,13 +6,16 @@ function Servers()
     const [data,setData]=useState({})
     
     useEffect(()=>{
-        fetch("/servers").then(
-        res => res.json()
-        ).then(
-        data => {
-            setData(data)
-            console.log(data)
-        }
+        //will add params to the query. Example fetch("/servers?name=myServer")
+        fetch("/servers")
+        .then(
+            res => res.json()
+        )
+        .then(
+            data => {
+                setData(data)
+                console.log(data)
+            }
         )
 
     },[])

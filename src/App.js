@@ -1,5 +1,6 @@
 import Servers from './Servers/Servers'
 import Navbar from './Navbar/Navbar'
+import Filter from './Filter/Filter'
 
 function App(){
 
@@ -10,7 +11,7 @@ function App(){
     <div className="App">
       <Navbar />
       <div className="content">
-        {/* Add a filter component here */}
+        <Filter/>
         <Servers/>
       </div>
     </div>
