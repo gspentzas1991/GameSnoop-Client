@@ -16,7 +16,7 @@ function App(){
     if(!filters.serverName && !filters.serverRegion){
       return;
     }
-    fetch(`/servers?name=${filters.serverName}`)
+    fetch(`/servers?name=${filters.serverName}&pve=${filters.pve}&pvp=${filters.pvp}&secure=${filters.secure}&clanSize=${filters.clanSize}`)
     .then(
         res => res.json()
     )
@@ -25,7 +25,19 @@ function App(){
             setServers(data.servers)
         }
     )
-}
+  }
+
+  function getFullServerList(){
+    fetch(`/allServers`)
+    .then(
+        res => res.json()
+    )
+    .then(
+        data => {
+            setServers(data.servers)
+        }
+    )
+  }
 
   return(
     <div className="App">
@@ -34,6 +46,7 @@ function App(){
 
         <Filter submitFilter={(filters)=> getServers(filters)}/>
         <Servers  servers = {servers}/>
+        <button onClick={getFullServerList}>Get All Servers</button>
       </div>
     </div>
   )
