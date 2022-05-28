@@ -7,15 +7,33 @@ import React,{useState,useEffect} from 'react'
 function App(){
 
   const title = "GameSnoop"
-  const [filters, setFilters] = useState({serverName:'',serverRegion:''});
+
+  const [servers,setServers]=useState([])
+
+
+  function getServers(filters){
+    //temporary check to make sure we don't ask for the entire server list
+    if(!filters.serverName && !filters.serverRegion){
+      return;
+    }
+    fetch(`/servers?name=${filters.serverName}`)
+    .then(
+        res => res.json()
+    )
+    .then(
+        data => {
+            setServers(data.servers)
+        }
+    )
+}
 
   return(
     <div className="App">
       <Navbar />
       <div className="content">
 
-        <Filter onFilterChange={(value)=> {setFilters(value)}}/>
-        <Servers  filters={filters}/>
+        <Filter submitFilter={(filters)=> getServers(filters)}/>
+        <Servers  servers = {servers}/>
       </div>
     </div>
   )
