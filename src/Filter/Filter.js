@@ -4,14 +4,36 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Collapse from 'react-bootstrap/Collapse';
+import Select from 'react-select';
+
 
 
 //Generates a filter object from each user input, and on submit it executes props.submitFilter to return the filter data
 function Filter(props){
 
-    const [open, setOpen] = useState(false);
-    var filters = {serverName:'',pvp: false, pve:false, secure:false, clanSize:0}
+    const [serverTypeOpen, setServerTypeOpen] = useState(false);
+    const [serverTypeSelectedOption, setServerTypeSelectedOption] = useState([]);
+    const [clanSizeOpen, setclanSizeOpen] = useState(false);
+    const [clanSizeSelectedOption, setClanSizeSelectedOption] = useState([]);
+    var filters = {serverName:'',serverType:[],clanSize:[]}
 
+    const clanSizeOptions = [
+        { value: 'Two', label: 'Two' },
+        { value: 'Four', label: 'Four' }
+      ];
+      
+    const serverTypeOptions = [
+        { value: 'PvP', label: 'PVP' },
+        { value: 'PvE', label: 'PVE' },
+        { value: 'Dedicated', label: 'Dedicated' },
+        { value: 'Hardcore', label: 'Hardcore' }
+      ];
+
+     function sendFilters(){
+        filters.clanSize = clanSizeSelectedOption.map(x=>x.value)
+        filters.serverType = serverTypeSelectedOption.map(x=>x.value)
+        props.submitFilter(filters)
+     }
     return (
     <Container>
         <Row>
@@ -28,49 +50,50 @@ function Filter(props){
             </Col>
         </Row>
         <Row>
-            <Col sm={3}> 
-                <label>
-                    ClanSize:
-                </label>
-            </Col>
-            <Col sm={9}>
-                <input type="number" name="clanSize" onChange={(event) =>{filters.clanSize = event.target.value;}} />
-            </Col>
-        </Row>
-        <Row>
-            <Col>
+            <Col> 
                 <Button
-                    onClick={() => setOpen(!open)}
+                    onClick={() => setclanSizeOpen(!clanSizeOpen)}
                     aria-controls="example-collapse-text"
-                    aria-expanded={open}>
-                    ServerTypes
+                    aria-expanded={clanSizeOpen}>
+                    ClanSize
                 </Button>
-                <Collapse in={open}>
+                <Collapse in={clanSizeOpen}>
                 <Row>
-                    <Col>
-                        <label>
-                            PVP
-                            <input type="checkbox" onChange={(event)=>{filters.pvp=event.target.checked;} }/>
-                        </label>
-                    </Col>
-                    <Col>
-                        <label>
-                            PVE
-                            <input type="checkbox" onChange={(event)=>filters.pve=event.target.checked} />
-                        </label>
-                    </Col>
-                    <Col>
-                        <label>
-                            Private Servers:
-                            <input type="checkbox" onChange={(event)=>{filters.secure=event.target.checked} }/>
-                        </label>
-                    </Col>
+                    <Select
+                        defaultValue={clanSizeSelectedOption}
+                        onChange={setClanSizeSelectedOption}
+                        options={clanSizeOptions}
+                        isMulti= {true}
+                    />
                 </Row>
                 </Collapse>
             </Col>
         </Row>
         <Row>
-            <Button onClick={()=>props.submitFilter(filters)}>Search</Button>
+            <Col>
+                <Button
+                    onClick={() => setServerTypeOpen(!serverTypeOpen)}
+                    aria-controls="example-collapse-text"
+                    aria-expanded={serverTypeOpen}>
+                    ServerTypes
+                </Button>
+                <Collapse in={serverTypeOpen}>
+                <Row>
+                    <Col>
+                        <Select
+                            defaultValue={serverTypeSelectedOption}
+                            onChange={setServerTypeSelectedOption}
+                            options={serverTypeOptions}
+                            isMulti= {true}
+                        />
+                    </Col>
+                </Row>
+                </Collapse>
+                
+            </Col>
+        </Row>
+        <Row>
+            <Button onClick={sendFilters}>Search</Button>
         </Row>
     </Container>
     );
