@@ -5,8 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Collapse from 'react-bootstrap/Collapse';
 import Select from 'react-select';
-
-
+import TooltipSlider, { handleRender } from 'rc-slider';
 
 //Generates a filter object from each user input, and on submit it executes props.submitFilter to return the filter data
 function Filter(props){
@@ -31,7 +30,7 @@ function Filter(props){
 
       const SecureServerOptions=[
         { value: '', label: 'Any' },
-        { value: 'Password Protected', label: 'Password Protected' },
+        { value: 'Locked', label: 'Password Protected' },
         { value: 'Open', label: 'Open' }
       ]
 
@@ -43,22 +42,23 @@ function Filter(props){
 
     //states for expanding the GUI of filters
     const [expandMultiplayer, setExpandMultiplayer] = useState(false);
-    const [expandClanSize, setExpandClanSize] = useState(false);
     const [expandOptions, setExpandOptions] = useState(false);
     
     //states for values in filters
     const [serverName, setServerName] = useState([]);
     const [multiplayerSelection, setMultiplayerSelection] = useState(serverMultiplayerOptions);
-    const [clanSizeSelection, setClanSizeSelection] = useState([]);
+    const [clanSize, setClanSize] = useState([2, 4])
     const [dedicationSelection, setDedicationSelection] = useState(dedicatedServerOptions[0]);
     const [securitySelection, setSecuritySelection] = useState(SecureServerOptions[0]);
     const [difficultySelection, setDifficultySelection] = useState(DifficultyServerOptions[0]);
+    //to be deleted
+    const [clanSizeSelection, setClanSizeSelection] = useState([]);
 
     //Generates a filter object from the values of filter inputs
     function sendFilters(){
         var filters = {serverName:'',serverType:[],clanSize:[],dedicated:'',secure:'',difficulty:''}
         filters.serverName = serverName
-        filters.clanSize = clanSizeSelection.map(x=>x.value)
+        filters.clanSize = clanSize
         filters.serverType = multiplayerSelection.map(x=>x.value)
         filters.dedicated = dedicationSelection.value
         filters.secure = securitySelection.value
@@ -66,35 +66,22 @@ function Filter(props){
         props.submitFilter(filters)
     }
     return (
-    <Container>
+    <Container className='filterContainer'>
         <Row>
-            <Col sm={3}> 
-                <label>
-                    ServerName:
-                </label>
-            </Col>
-            <Col sm={9}>
-                <input type="text" name="serverName" value={serverName} onChange={e => setServerName(e.target.value)} />
-            </Col>
+            ServerName
+            <input type="text" name="serverName" value={serverName} onChange={e => setServerName(e.target.value)} />
         </Row>
         <Row>
             <Col> 
-                <Button
-                    onClick={() => setExpandClanSize(!expandClanSize)}
-                    aria-controls="example-collapse-text"
-                    aria-expanded={expandClanSize}>
-                    Clan Size
-                </Button>
-                <Collapse in={expandClanSize}>
-                <Row>
-                    <Select
-                        defaultValue={clanSizeSelection}
-                        onChange={setClanSizeSelection}
-                        options={clanSizeOptions}
-                        isMulti= {true}
-                    />
-                </Row>
-                </Collapse>
+                Clan Size
+                <TooltipSlider
+                    range
+                    min={0}
+                    max={10}
+                    value={clanSize} 
+                    onChange={setClanSize}
+                    tipFormatter={(value) => `${value}!`}
+                />
             </Col>
         </Row>
         <Row>
