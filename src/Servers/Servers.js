@@ -3,22 +3,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+//Displays the server list that it receives from props
 function Servers(props)
 {
-
-    const [data,setData]=useState({})
-    
-    useEffect(()=>{
-        fetch("/servers").then(
-        res => res.json()
-        ).then(
-        data => {
-            setData(data)
-            console.log(data)
-        }
-        )
-
-    },[])
 
     return(
         <Container>
