@@ -5,17 +5,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Collapse from 'react-bootstrap/Collapse';
 import Select from 'react-select';
-import TooltipSlider, { handleRender } from 'rc-slider';
+import Slider from 'rc-slider';
 
 //Generates a filter object from each user input, and on submit it executes props.submitFilter to return the filter data
 function Filter(props){
 
     //Selection options
-
-    const clanSizeOptions = [
-        { value: 'Two', label: 'Two' },
-        { value: 'Four', label: 'Four' }
-      ];
       
     const serverMultiplayerOptions = [
         { value: 'PvP', label: 'PVP' },
@@ -51,8 +46,6 @@ function Filter(props){
     const [dedicationSelection, setDedicationSelection] = useState(dedicatedServerOptions[0]);
     const [securitySelection, setSecuritySelection] = useState(SecureServerOptions[0]);
     const [difficultySelection, setDifficultySelection] = useState(DifficultyServerOptions[0]);
-    //to be deleted
-    const [clanSizeSelection, setClanSizeSelection] = useState([]);
 
     //Generates a filter object from the values of filter inputs
     function sendFilters(){
@@ -73,15 +66,15 @@ function Filter(props){
         </Row>
         <Row>
             <Col> 
-                Clan Size
-                <TooltipSlider
+                Clan Size {clanSize[0]!=clanSize[1] ? (<div>{clanSize[0]}-{clanSize[1]}</div>):(<div>{clanSize[0]}</div>)}
+                <Slider
                     range
                     min={0}
                     max={10}
                     value={clanSize} 
                     onChange={setClanSize}
-                    tipFormatter={(value) => `${value}!`}
                 />
+                
             </Col>
         </Row>
         <Row>
