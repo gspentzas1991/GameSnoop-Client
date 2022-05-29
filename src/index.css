@@ -40,3 +40,7 @@
 .row{
   padding-bottom: 10px;
 }
+
+.serverIconList{
+  float:right
+}
