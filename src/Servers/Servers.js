@@ -1,22 +1,24 @@
 import React,{useState,useEffect} from 'react'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 //Displays the server list that it receives from props
 function Servers(props)
 {
 
     return(
-        <div>
-            <h2>Servers</h2>
-            <div>
+        <Container>
+            <Row>
+                <Col><h2>Servers</h2></Col>
+            </Row>
             {(typeof props.servers === 'undefined') ? (
-                <p>Loading...</p>
+                <Row>Loading...</Row>
             ):(
                 props.servers.map((server,i)=>(
-                <p key={i}>{server['name']} - players : {server['players']} / {server['max_players']}</p>
-                ))
-            )}
-            </div>
-        </div>
+                <Row key={i}>{server['name']} - players : {server['players']} / {server['max_players']}</Row>
+            )))}
+        </Container>
     );
 }
 export default Servers;
