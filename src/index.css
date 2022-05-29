@@ -44,3 +44,7 @@
 .serverIconList{
   float:right
 }
+
+.serverIcon{
+  margin-right: 10px;
+}

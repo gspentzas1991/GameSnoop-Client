@@ -15,42 +15,40 @@ import ReactTooltip from 'react-tooltip';
 //Displays the server list that it receives from props
 function Servers(props)
 {
-    function getClanSize(gameTypes){
-        var clanSize=0
-        var csGameType = gameTypes.filter((element)=>{console.log(element);return element.includes('cs')})[0]
-        console.log(csGameType)
-        if(csGameType){
-            clanSize = csGameType.split('cs')[1]
-        }
-        return clanSize
-    }
+    useEffect(() => {
+        ReactTooltip.rebuild()
+      });
 
     return(
         <Container>
             <Row>
                 <Col><h2>Servers</h2></Col>
             </Row>
-            {(typeof props.servers === 'undefined') ? (
+            {(typeof props.servers === 'undefined' || props.loadingServers) ? (
                 <Row>Loading...</Row>
             ):
             (<ListGroup>
+                <ReactTooltip />
                 {
                     props.servers.map((server,i)=>(
                         <ListGroup.Item key={i}>
                             <b>{server['name']}</b> - players : {server['players']} / {server['max_players']}
-                            <ReactTooltip />
                             <div className='serverIconList'>
-                                {server['isSecure']?<FaLock data-tip="Password Protected" />:<span></span>}
-                                {server['isDedicated']?<FaUserSecret data-tip="Dedicated" />:<span></span>}
-                                {server['gametypes'].some((element)=>element=='pve')?<GiMonsterGrasp data-tip="PvE" />:<span></span>}
-                                {server['gametypes'].some((element)=>element=='pvp')?<RiSwordLine data-tip="PvP" />:<span></span>}
+                                {server['isSecure']?<b className='serverIcon'><FaLock data-tip="Password Protected" /></b>:null}
+                                {server['isDedicated']?<b className='serverIcon'><FaUserSecret data-tip="Dedicated" /></b>:null}
+                                {server['isPVE']?<b className='serverIcon'><GiMonsterGrasp data-tip="PvE" /></b>:null}
+                                {server['isPVP']?<b className='serverIcon'><RiSwordLine data-tip="PvP" /></b>:null}
                             </div>
-                            {getClanSize(server['gametypes'])>0?<div>Clan Size : {getClanSize(server['gametypes'])}</div>:<span></span>}
+                            <div>Clan Size : {server['clanSize']}</div>
                         </ListGroup.Item>
                     ))
                 }
             </ListGroup>
-            )}
+            )
+            }
+            {(props.servers.length == 0 && !props.loadingServers) &&
+                <h2>No Servers Found</h2>
+            }
         </Container>
     );
 }
