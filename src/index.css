@@ -33,6 +33,10 @@
   padding: 20px;
 }
 
-.container{
-  margin-left: 10% !important;
+.filterContainer{
+  max-width:800px !important
+}
+
+.row{
+  padding-bottom: 10px;
 }
