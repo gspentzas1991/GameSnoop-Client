@@ -1,6 +1,9 @@
 import React,{useState,useEffect} from 'react'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
-function Servers()
+function Servers(props)
 {
 
     const [data,setData]=useState({})
@@ -18,18 +21,17 @@ function Servers()
     },[])
 
     return(
-        <div>
-            <h2>Servers</h2>
-            <div>
-            {(typeof data.servers === 'undefined') ? (
-                <p>Loading...</p>
+        <Container>
+            <Row>
+                <Col><h2>Servers</h2></Col>
+            </Row>
+            {(typeof props.servers === 'undefined') ? (
+                <Row>Loading...</Row>
             ):(
-                data.servers.map((server,i)=>(
-                <p key={i}>{server['name']} - players : {server['players']} / {server['max_players']}</p>
-                ))
-            )}
-            </div>
-        </div>
+                props.servers.map((server,i)=>(
+                <Row key={i}>{server['name']} - players : {server['players']} / {server['max_players']}</Row>
+            )))}
+        </Container>
     );
 }
 export default Servers;

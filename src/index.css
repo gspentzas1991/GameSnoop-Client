@@ -29,7 +29,10 @@
   color: #f1356d;
 }
 .content {
-  max-width: 80vw;
   margin: 40px auto;
   padding: 20px;
+}
+
+.container{
+  margin-left: 10% !important;
 }
