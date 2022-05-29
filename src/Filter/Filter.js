@@ -11,34 +11,62 @@ import Select from 'react-select';
 //Generates a filter object from each user input, and on submit it executes props.submitFilter to return the filter data
 function Filter(props){
 
-    const [serverTypeOpen, setServerTypeOpen] = useState(false);
-    const [serverTypeSelectedOption, setServerTypeSelectedOption] = useState([]);
-    const [clanSizeOpen, setclanSizeOpen] = useState(false);
-    const [clanSizeSelectedOption, setClanSizeSelectedOption] = useState([]);
-    var filters = {serverName:'',serverType:[],clanSize:[]}
+    //Selection options
 
     const clanSizeOptions = [
         { value: 'Two', label: 'Two' },
         { value: 'Four', label: 'Four' }
       ];
       
-    const serverTypeOptions = [
+    const serverMultiplayerOptions = [
         { value: 'PvP', label: 'PVP' },
-        { value: 'PvE', label: 'PVE' },
-        { value: 'Dedicated', label: 'Dedicated' },
-        { value: 'Hardcore', label: 'Hardcore' }
+        { value: 'PvE', label: 'PVE' }
       ];
 
-     function sendFilters(){
-        filters.clanSize = clanSizeSelectedOption.map(x=>x.value)
-        filters.serverType = serverTypeSelectedOption.map(x=>x.value)
+      const dedicatedServerOptions=[
+        { value: '', label: 'Any' },
+        { value: 'Dedicated', label: 'Dedicated' },
+        { value: 'Public', label: 'Public' }
+      ]
+
+      const SecureServerOptions=[
+        { value: '', label: 'Any' },
+        { value: 'Password Protected', label: 'Password Protected' },
+        { value: 'Open', label: 'Open' }
+      ]
+
+      const DifficultyServerOptions=[
+        { value: '', label: 'Any' },
+        { value: 'Hardcore', label: 'Hardcore' },
+        { value: 'Casual', label: 'Casual' }
+      ]
+
+    //states for expanding the GUI of filters
+    const [expandMultiplayer, setExpandMultiplayer] = useState(false);
+    const [expandClanSize, setExpandClanSize] = useState(false);
+    const [expandOptions, setExpandOptions] = useState(false);
+    
+    //states for values in filters
+    const [serverName, setServerName] = useState([]);
+    const [multiplayerSelection, setMultiplayerSelection] = useState(serverMultiplayerOptions);
+    const [clanSizeSelection, setClanSizeSelection] = useState([]);
+    const [dedicationSelection, setDedicationSelection] = useState(dedicatedServerOptions[0]);
+    const [securitySelection, setSecuritySelection] = useState(SecureServerOptions[0]);
+    const [difficultySelection, setDifficultySelection] = useState(DifficultyServerOptions[0]);
+
+    //Generates a filter object from the values of filter inputs
+    function sendFilters(){
+        var filters = {serverName:'',serverType:[],clanSize:[],dedicated:'',secure:'',difficulty:''}
+        filters.serverName = serverName
+        filters.clanSize = clanSizeSelection.map(x=>x.value)
+        filters.serverType = multiplayerSelection.map(x=>x.value)
+        filters.dedicated = dedicationSelection.value
+        filters.secure = securitySelection.value
+        filters.difficulty = difficultySelection.value
         props.submitFilter(filters)
-     }
+    }
     return (
     <Container>
-        <Row>
-            <Col>Server Filters</Col>
-        </Row>
         <Row>
             <Col sm={3}> 
                 <label>
@@ -46,22 +74,22 @@ function Filter(props){
                 </label>
             </Col>
             <Col sm={9}>
-                <input type="text" name="serverName" onChange={(event) =>{filters.serverName = event.target.value;}} />
+                <input type="text" name="serverName" value={serverName} onChange={e => setServerName(e.target.value)} />
             </Col>
         </Row>
         <Row>
             <Col> 
                 <Button
-                    onClick={() => setclanSizeOpen(!clanSizeOpen)}
+                    onClick={() => setExpandClanSize(!expandClanSize)}
                     aria-controls="example-collapse-text"
-                    aria-expanded={clanSizeOpen}>
-                    ClanSize
+                    aria-expanded={expandClanSize}>
+                    Clan Size
                 </Button>
-                <Collapse in={clanSizeOpen}>
+                <Collapse in={expandClanSize}>
                 <Row>
                     <Select
-                        defaultValue={clanSizeSelectedOption}
-                        onChange={setClanSizeSelectedOption}
+                        defaultValue={clanSizeSelection}
+                        onChange={setClanSizeSelection}
                         options={clanSizeOptions}
                         isMulti= {true}
                     />
@@ -72,19 +100,58 @@ function Filter(props){
         <Row>
             <Col>
                 <Button
-                    onClick={() => setServerTypeOpen(!serverTypeOpen)}
+                    onClick={() => setExpandMultiplayer(!expandMultiplayer)}
                     aria-controls="example-collapse-text"
-                    aria-expanded={serverTypeOpen}>
-                    ServerTypes
+                    aria-expanded={expandMultiplayer}>
+                    Multiplayer Mode
                 </Button>
-                <Collapse in={serverTypeOpen}>
+                <Collapse in={expandMultiplayer}>
                 <Row>
                     <Col>
                         <Select
-                            defaultValue={serverTypeSelectedOption}
-                            onChange={setServerTypeSelectedOption}
-                            options={serverTypeOptions}
+                            defaultValue={multiplayerSelection}
+                            onChange={setMultiplayerSelection}
+                            options={serverMultiplayerOptions}
                             isMulti= {true}
+                        />
+                    </Col>
+                </Row>
+                </Collapse>
+                
+            </Col>
+        </Row>
+        <Row>
+            <Col>
+                <Button
+                    onClick={() => setExpandOptions(!expandOptions)}
+                    aria-controls="example-collapse-text"
+                    aria-expanded={expandOptions}>
+                    Options
+                </Button>
+                <Collapse in={expandOptions}>
+                <Row>
+                    <Col>
+                        Dedicated Server
+                        <Select
+                            defaultValue={dedicationSelection}
+                            onChange={setDedicationSelection}
+                            options={dedicatedServerOptions}
+                        />
+                    </Col>
+                    <Col>
+                        Password Protection
+                        <Select
+                            defaultValue={securitySelection}
+                            onChange={setSecuritySelection}
+                            options={SecureServerOptions}
+                        />
+                    </Col>
+                    <Col>
+                        Difficulty
+                        <Select
+                            defaultValue={difficultySelection}
+                            onChange={setDifficultySelection}
+                            options={DifficultyServerOptions}
                         />
                     </Col>
                 </Row>
