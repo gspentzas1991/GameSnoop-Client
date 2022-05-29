@@ -12,11 +12,12 @@ function App(){
 
 
   function getServers(filters){
-    //temporary check to make sure we don't ask for the entire server list
-    if(!filters.serverName && !filters.serverRegion){
-      return;
-    }
-    fetch(`/servers?name=${filters.serverName}&pve=${filters.pve}&pvp=${filters.pvp}&secure=${filters.secure}&clanSize=${filters.clanSize}`)
+    console.log(filters)
+    //We create the url parameters for the request
+    var url = `/servers?serverName=${filters.serverName}`
+    url += `&serverType=${filters.serverType.join()}`
+    url += `&clanSize=${filters.clanSize.join()}`
+    fetch(url)
     .then(
         res => res.json()
     )
