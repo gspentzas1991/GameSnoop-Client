@@ -1,30 +1,17 @@
 import React,{useState,useEffect} from 'react'
 
-function Servers()
+//Displays the server list that it receives from props
+function Servers(props)
 {
-
-    const [data,setData]=useState({})
-    
-    useEffect(()=>{
-        fetch("/servers").then(
-        res => res.json()
-        ).then(
-        data => {
-            setData(data)
-            console.log(data)
-        }
-        )
-
-    },[])
 
     return(
         <div>
             <h2>Servers</h2>
             <div>
-            {(typeof data.servers === 'undefined') ? (
+            {(typeof props.servers === 'undefined') ? (
                 <p>Loading...</p>
             ):(
-                data.servers.map((server,i)=>(
+                props.servers.map((server,i)=>(
                 <p key={i}>{server['name']} - players : {server['players']} / {server['max_players']}</p>
                 ))
             )}
