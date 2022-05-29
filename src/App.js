@@ -17,6 +17,9 @@ function App(){
     var url = `/servers?serverName=${filters.serverName}`
     url += `&serverType=${filters.serverType.join()}`
     url += `&clanSize=${filters.clanSize.join()}`
+    url += `&dedicated=${filters.dedicated}`
+    url += `&secure=${filters.secure}`
+    url += `&difficulty=${filters.difficulty}`
     fetch(url)
     .then(
         res => res.json()
