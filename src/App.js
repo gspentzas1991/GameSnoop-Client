@@ -2,17 +2,18 @@ import Servers from './Servers/Servers'
 import Navbar from './Navbar/Navbar'
 import Filter from './Filter/Filter'
 import React,{useState,useEffect} from 'react'
+import Button from 'react-bootstrap/esm/Button'
 
 
 function App(){
 
-  const title = "GameSnoop"
-
   const [servers,setServers]=useState([])
 
-
+  /*
+    Makes a request to /servers with the received filters from the Filters componen 
+    and updates the data.servers object
+  */
   function getServers(filters){
-    console.log(filters)
     //We create the url parameters for the request
     var url = `/servers?serverName=${filters.serverName}`
     url += `&serverType=${filters.serverType.join()}`
@@ -31,6 +32,7 @@ function App(){
     )
   }
 
+  //Makes a request to /allServers and updates the data.servers object
   function getFullServerList(){
     fetch(`/allServers`)
     .then(
@@ -50,7 +52,6 @@ function App(){
 
         <Filter submitFilter={(filters)=> getServers(filters)}/>
         <Servers  servers = {servers}/>
-        <button onClick={getFullServerList}>Get All Servers</button>
       </div>
     </div>
   )
