@@ -5,7 +5,6 @@
     "node": "16.x"
   },
   "private": true,
-  "proxy": "https://game-snoop-server.herokuapp.com/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",

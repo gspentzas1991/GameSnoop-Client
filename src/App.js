@@ -18,7 +18,7 @@ function App(){
     setLoadingServers(true)
     setServers([])
     //We create the url parameters for the request
-    var url = `/servers?serverName=${filters.serverName}`
+    var url = `https://game-snoop-server.herokuapp.com/servers?serverName=${filters.serverName}`
     url += `&serverType=${filters.serverType.join()}`
     url += `&clanSize=${filters.clanSize.join()}`
     url += `&dedicated=${filters.dedicated}`
@@ -40,7 +40,7 @@ function App(){
   function getFullServerList(){
     setLoadingServers(true)
     setServers([])
-    fetch(`/allServers`)
+    fetch(`https://game-snoop-server.herokuapp.com/allServers`)
     .then(
         res => res.json()
     )
