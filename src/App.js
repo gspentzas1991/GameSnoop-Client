@@ -2,11 +2,12 @@ import Servers from './Servers/Servers'
 import Navbar from './Navbar/Navbar'
 import Filter from './Filter/Filter'
 import React,{useState,useEffect} from 'react'
-import Button from 'react-bootstrap/esm/Button'
+import { config } from './Configuration/Constants' 
+import Container from 'react-bootstrap/Container';
+
 
 
 function App(){
-
   const [servers,setServers]=useState([])
   const [loadingServers,setLoadingServers]=useState(false)
 
@@ -18,7 +19,7 @@ function App(){
     setLoadingServers(true)
     setServers([])
     //We create the url parameters for the request
-    var url = `https://game-snoop-server.herokuapp.com/servers?serverName=${filters.serverName}`
+    var url = `${config.server.url}/servers?serverName=${filters.serverName}`
     url += `&serverType=${filters.serverType.join()}`
     url += `&clanSize=${filters.clanSize.join()}`
     url += `&dedicated=${filters.dedicated}`
@@ -40,7 +41,7 @@ function App(){
   function getFullServerList(){
     setLoadingServers(true)
     setServers([])
-    fetch(`https://game-snoop-server.herokuapp.com/allServers`)
+    fetch(`${config.server.url}/allServers`)
     .then(
         res => res.json()
     )
@@ -56,7 +57,9 @@ function App(){
     <div className="App">
       <Navbar />
       <div className="content">
-
+        <Container>
+          <h2>A server search engine for the game <a href='https://store.steampowered.com/app/1604030/V_Rising/'>V Rising</a></h2>
+        </Container>
         <Filter submitFilter={(filters)=> getServers(filters)}/>
         <Servers loadingServers={loadingServers} servers = {servers}/>
       </div>
