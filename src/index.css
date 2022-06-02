@@ -37,6 +37,10 @@
   max-width:800px !important
 }
 
+.container{
+  padding-bottom: 20px;
+}
+
 .row{
   padding-bottom: 10px;
 }
