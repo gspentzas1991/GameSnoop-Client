@@ -8,6 +8,7 @@ import {RiSwordLine} from 'react-icons/ri'
 import {GiMonsterGrasp} from 'react-icons/gi'
 import {FaUserSecret} from 'react-icons/fa'
 import {FaLock} from 'react-icons/fa'
+import {GiDaemonSkull} from 'react-icons/gi'
 import ReactTooltip from 'react-tooltip';
 
 
@@ -36,6 +37,7 @@ function Servers(props)
                             <div className='serverIconList'>
                                 {server['isSecure']?<b className='serverIcon'><FaLock data-tip="Password Protected" /></b>:null}
                                 {server['isDedicated']?<b className='serverIcon'><FaUserSecret data-tip="Dedicated" /></b>:null}
+                                {server['isHardcore']?<b className='serverIcon'><GiDaemonSkull data-tip="Hardcore" /></b>:null}
                                 {server['isPVE']?<b className='serverIcon'><GiMonsterGrasp data-tip="PvE" /></b>:null}
                                 {server['isPVP']?<b className='serverIcon'><RiSwordLine data-tip="PvP" /></b>:null}
                             </div>
